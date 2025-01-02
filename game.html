@@ -1,237 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: gray;
-            font-family: 'Arial', sans-serif;
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: gray;
+        font-family: "Arial", sans-serif;
+      }
+      .game-container {
+        text-align: center;
+      }
+      .status {
+        margin-bottom: 10px;
+        font-size: 1.5em;
+        background-color: lightgray;
+        padding: 10px;
+        border-radius: 10px;
+        width: 320px;
+        margin: 0 auto;
+      }
+      .board {
+        display: grid;
+        grid-template-columns: repeat(3, 110px);
+        grid-template-rows: repeat(3, 110px);
+        gap: 5px;
+        margin: 20px auto;
+        background-color: yellow;
+        border: 5px solid darkgray;
+        border-radius: 10px;
+        position: relative;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .board::before,
+      .board::after {
+        content: "";
+        position: absolute;
+        background-color: black;
+      }
+      .board::before {
+        width: 5px;
+        height: 100%;
+        left: 33.33%;
+        top: 0;
+      }
+      .board::after {
+        width: 5px;
+        height: 100%;
+        left: 66.66%;
+        top: 0;
+      }
+      .board div:nth-child(3n + 1)::before,
+      .board div:nth-child(3n + 1)::after {
+        content: "";
+        position: absolute;
+        background-color: black;
+      }
+      .board div:nth-child(3n + 1)::before {
+        width: 100%;
+        height: 5px;
+        top: 33.33%;
+        left: 0;
+      }
+      .board div:nth-child(3n + 1)::after {
+        width: 100%;
+        height: 5px;
+        top: 66.66%;
+        left: 0;
+      }
+      .cell {
+        width: 117px;
+        height: 118px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        overflow: hidden;
+      }
+      .cell:hover {
+        background-color: lightgray;
+      }
+      .cell.X {
+        color: blue;
+        animation: appear 0.3s ease-in-out;
+      }
+      .cell.O {
+        color: red;
+        animation: appear 0.3s ease-in-out;
+      }
+      @keyframes appear {
+        from {
+          transform: scale(0);
         }
-        .game-container {
-            text-align: center;
+        to {
+          transform: scale(1);
         }
-        .status {
-            margin-bottom: 10px;
-            font-size: 1.5em;
-            background-color: lightgray;
-            padding: 10px;
-            border-radius: 10px;
-            width: 320px;
-            margin: 0 auto;
-        }
-        .board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 5px;
-            margin: 20px auto;
-            background-color: yellow;
-            border: 5px solid darkgray;
-            border-radius: 10px;
-            position: relative;
-        }
-        .board::before, .board::after {
-            content: '';
-            position: absolute;
-            background-color: black;
-        }
-        .board::before {
-            width: 5px;
-            height: 100%;
-            left: 33.33%;
-            top: 0;
-        }
-        .board::after {
-            width: 5px;
-            height: 100%;
-            left: 66.66%;
-            top: 0;
-        }
-        .board div:nth-child(3n+1)::before, .board div:nth-child(3n+1)::after {
-            content: '';
-            position: absolute;
-            background-color: black;
-        }
-        .board div:nth-child(3n+1)::before {
-            width: 100%;
-            height: 5px;
-            top: 33.33%;
-            left: 0;
-        }
-        .board div:nth-child(3n+1)::after {
-            width: 100%;
-            height: 5px;
-            top: 66.66%;
-            left: 0;
-        }
-        .cell {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2em;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-        .cell:hover {
-            background-color: lightgray;
-        }
-        .cell.X {
-            color: blue;
-            animation: appear 0.3s ease-in-out;
-        }
-        .cell.O {
-            color: red;
-            animation: appear 0.3s ease-in-out;
-        }
-        @keyframes appear {
-            from {
-                transform: scale(0);
-            }
-            to {
-                transform: scale(1);
-            }
-        }
-        .reset-button {
-            background-color: purple;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 10px;
-        }
-        .reset-button:hover {
-            background-color: darkviolet;
-        }
-        .scoreboard {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .score {
-            background-color: lightgray;
-            padding: 10px;
-            border-radius: 10px;
-            width: 100px;
-            text-align: center;
-        }
+      }
+      .reset-button {
+        background-color: purple;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1em;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+      .reset-button:hover {
+        background-color: darkviolet;
+      }
+      .scoreboard {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+      }
+      .score {
+        background-color: lightgray;
+        padding: 10px;
+        border-radius: 10px;
+        width: 100px;
+        text-align: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="game-container">
-        <div class="status">X's turn</div>
-        <div class="board">
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-            <div class="cell" data-cell></div>
-        </div>
-        <button class="reset-button">Reset</button>
-        <div class="scoreboard">
-            <div class="score">X: <span id="x-score">0</span></div>
-            <div class="score">O: <span id="o-score">0</span></div>
-        </div>
+      <div class="status">X's turn</div>
+      <div class="board">
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+      </div>
+      <button class="reset-button">Reset</button>
+      <div class="scoreboard">
+        <div class="score">X: <span id="x-score">0</span></div>
+        <div class="score">O: <span id="o-score">0</span></div>
+      </div>
     </div>
 
     <script>
-        const cells = document.querySelectorAll('[data-cell]');
-        const statusText = document.querySelector('.status');
-        const resetButton = document.querySelector('.reset-button');
-        const xScoreElement = document.getElementById('x-score');
-        const oScoreElement = document.getElementById('o-score');
-        let isXTurn = true;
-        let board = ['', '', '', '', '', '', '', '', ''];
-        let xScore = 0;
-        let oScore = 0;
+      const cells = document.querySelectorAll("[data-cell]");
+      const statusText = document.querySelector(".status");
+      const resetButton = document.querySelector(".reset-button");
+      const xScoreElement = document.getElementById("x-score");
+      const oScoreElement = document.getElementById("o-score");
+      let isXTurn = true;
+      let board = ["", "", "", "", "", "", "", "", ""];
+      let xScore = 0;
+      let oScore = 0;
 
-        const winningCombinations = [
-            [0, 1, 2],
-            [3, 4, 5],
-            [6, 7, 8],
-            [0, 3, 6],
-            [1, 4, 7],
-            [2, 5, 8],
-            [0, 4, 8],
-            [2, 4, 6]
-        ];
+      const winningCombinations = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+      ];
 
-        function handleClick(e) {
-            const cell = e.target;
-            const currentClass = isXTurn ? 'X' : 'O';
-            const cellIndex = Array.from(cells).indexOf(cell);
+      function handleClick(e) {
+        const cell = e.target;
+        const currentClass = isXTurn ? "X" : "O";
+        const cellIndex = Array.from(cells).indexOf(cell);
 
-            if (board[cellIndex] !== '') return;
+        if (board[cellIndex] !== "") return;
 
-            board[cellIndex] = currentClass;
-            cell.textContent = currentClass;
-            cell.classList.add(currentClass);
+        board[cellIndex] = currentClass;
+        cell.textContent = currentClass;
+        cell.classList.add(currentClass);
 
-            if (checkWin(currentClass)) {
-                statusText.textContent = `${currentClass} wins!`;
-                statusText.style.backgroundColor = currentClass === 'X' ? 'blue' : 'red';
-                cells.forEach(cell => cell.removeEventListener('click', handleClick));
-                cells.forEach(cell => cell.classList.remove('hover'));
-                updateScore(currentClass);
-                return;
-            }
-
-            if (board.every(cell => cell !== '')) {
-                statusText.textContent = 'Draw!';
-                return;
-            }
-
-            isXTurn = !isXTurn;
-            statusText.textContent = `${isXTurn ? 'X' : 'O'}'s turn`;
+        if (checkWin(currentClass)) {
+          statusText.textContent = `${currentClass} wins!`;
+          statusText.style.backgroundColor =
+            currentClass === "X" ? "blue" : "red";
+          cells.forEach((cell) =>
+            cell.removeEventListener("click", handleClick)
+          );
+          cells.forEach((cell) => cell.classList.remove("hover"));
+          updateScore(currentClass);
+          return;
         }
 
-        function checkWin(currentClass) {
-            return winningCombinations.some(combination => {
-                return combination.every(index => {
-                    return board[index] === currentClass;
-                });
-            });
+        if (board.every((cell) => cell !== "")) {
+          statusText.textContent = "Draw!";
+          return;
         }
 
-        function updateScore(winner) {
-            if (winner === 'X') {
-                xScore++;
-                xScoreElement.textContent = xScore;
-            } else {
-                oScore++;
-                oScoreElement.textContent = oScore;
-            }
-        }
+        isXTurn = !isXTurn;
+        statusText.textContent = `${isXTurn ? "X" : "O"}'s turn`;
+      }
 
-        function resetGame() {
-            board = ['', '', '', '', '', '', '', '', ''];
-            cells.forEach(cell => {
-                cell.textContent = '';
-                cell.classList.remove('X', 'O');
-            });
-            isXTurn = true;
-            statusText.textContent = "X's turn";
-            statusText.style.backgroundColor = 'lightgray';
-            cells.forEach(cell => cell.addEventListener('click', handleClick));
-        }
-
-        cells.forEach(cell => {
-            cell.addEventListener('click', handleClick);
+      function checkWin(currentClass) {
+        return winningCombinations.some((combination) => {
+          return combination.every((index) => {
+            return board[index] === currentClass;
+          });
         });
+      }
 
-        resetButton.addEventListener('click', resetGame);
+      function updateScore(winner) {
+        if (winner === "X") {
+          xScore++;
+          xScoreElement.textContent = xScore;
+        } else {
+          oScore++;
+          oScoreElement.textContent = oScore;
+        }
+      }
+
+      function resetGame() {
+        board = ["", "", "", "", "", "", "", "", ""];
+        cells.forEach((cell) => {
+          cell.textContent = "";
+          cell.classList.remove("X", "O");
+        });
+        isXTurn = true;
+        statusText.textContent = "X's turn";
+        statusText.style.backgroundColor = "lightgray";
+        cells.forEach((cell) => cell.addEventListener("click", handleClick));
+      }
+
+      cells.forEach((cell) => {
+        cell.addEventListener("click", handleClick);
+      });
+
+      resetButton.addEventListener("click", resetGame);
     </script>
-</body>
+  </body>
 </html>
