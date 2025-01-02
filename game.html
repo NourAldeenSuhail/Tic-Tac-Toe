@@ -5,13 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
     <style>
+      * {
+        font-family: cursive;
+      }
       body {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: gray;
-        font-family: "Arial", sans-serif;
+        background-color: rgb(26, 26, 46);
       }
       .game-container {
         text-align: center;
@@ -31,14 +33,14 @@
         grid-template-rows: repeat(3, 110px);
         gap: 5px;
         margin: 20px auto;
-        background-color: yellow;
+        background-color: lightgray;
         border: 5px solid darkgray;
         border-radius: 10px;
         position: relative;
         box-sizing: border-box;
         overflow: hidden;
       }
-      /* .board::before,
+      .board::before,
       .board::after {
         content: "";
         position: absolute;
@@ -73,10 +75,10 @@
         height: 5px;
         top: 66.66%;
         left: 0;
-      } */
+      }
       .cell {
-        width: 117px;
-        height: 118px;
+        width: 115px;
+        height: 115px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -84,9 +86,10 @@
         cursor: pointer;
         transition: background-color 0.3s, transform 0.3s;
         overflow: hidden;
+        background-color: goldenrod;
       }
       .cell:hover {
-        background-color: lightgray;
+        background-color: gold;
       }
       .cell.X {
         color: blue;
@@ -98,12 +101,13 @@
       }
       @keyframes appear {
         from {
-          transform: scale(0);
+          opacity: 0;
         }
         to {
-          transform: scale(1);
+          opacity: 1;
         }
       }
+
       .reset-button {
         background-color: purple;
         color: white;
@@ -127,6 +131,7 @@
         border-radius: 10px;
         width: 100px;
         text-align: center;
+        
       }
     </style>
   </head>
@@ -134,16 +139,15 @@
     <div class="game-container">
       <div class="status">X's turn</div>
       <div class="board">
-        <div class="cell" data-cell style="border-right: 2px solid black; border-bottom: 2px solid black;"></div>
-        <div class="cell" data-cell style="border-right: 2px solid black; border-bottom: 2px solid black;"></div>
-        <div class="cell" data-cell style="border-bottom: 2px solid black;"></div>
-        <div class="cell" data-cell style="border-right: 2px solid black; border-bottom: 2px solid black;"></div>
-        <div class="cell" data-cell style="border-right: 2px solid black; border-bottom: 2px solid black;"></div>
-        <div class="cell" data-cell style="border-bottom: 2px solid black;"></div>
-        <div class="cell" data-cell style="border-right: 2px solid black;"></div>
-        <div class="cell" data-cell style="border-right: 2px solid black;"></div>
         <div class="cell" data-cell></div>
-        
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
       </div>
       <button class="reset-button">Reset</button>
       <div class="scoreboard">
@@ -188,7 +192,7 @@
         if (checkWin(currentClass)) {
           statusText.textContent = `${currentClass} wins!`;
           statusText.style.backgroundColor =
-            currentClass === "X" ? "blue" : "red";
+            currentClass === "X" ? "rgb(25, 78, 175)" : "rgb(199, 53, 53)";
           cells.forEach((cell) =>
             cell.removeEventListener("click", handleClick)
           );
